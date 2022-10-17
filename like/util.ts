@@ -5,7 +5,7 @@ import type {Like, PopulatedLike} from '../Like/model';
 // Update this if you add a property to the Like type!
 type LikeResponse = {
   _id: string;
-  author: string;
+  user: string;
   freetId: string
 };
 
@@ -22,12 +22,12 @@ const constructLikeResponse = (Like: HydratedDocument<Like>): LikeResponse => {
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
-  const {username} = LikeCopy.authorId;
-  delete LikeCopy.authorId;
+  const {username} = LikeCopy.userId;
+  delete LikeCopy.userId;
   return {
     ...LikeCopy,
     _id: LikeCopy._id.toString(),
-    author: username,
+    user: username,
     freetId: LikeCopy.freetId._id.toString()
   };
 };

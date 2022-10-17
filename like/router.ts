@@ -87,10 +87,10 @@ router.post(
 /**
  * Delete a like
  *
- * @name DELETE /api/likes?authorId=authorID&freetId=freetID
+ * @name DELETE /api/likes?userId=userId&freetId=freetID
  *
  * @return {string} - A success message
- * @throws {403} - If the user is not logged in or is not the author of
+ * @throws {403} - If the user is not logged in or is not the user of
  *                 the like, or if the like doesn't exist
  */
 router.delete(
@@ -106,7 +106,7 @@ router.delete(
     likeValidator.isLikeExists,
   ],
   async (req: Request, res: Response) => {
-    await LikeCollection.deleteOne(req.query.authorId as string, req.query.freetId as string);
+    await LikeCollection.deleteOne(req.query.userId as string, req.query.freetId as string);
     res.status(200).json({
       message: 'Your like was deleted successfully.'
     });
