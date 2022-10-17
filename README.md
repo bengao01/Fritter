@@ -175,6 +175,8 @@ The following api routes have already been implemented for you (**Make sure to d
 
 This renders the `index.html` file that will be used to interact with the backend
 
+### Freets
+
 #### `GET /api/freets` - Get all the freets
 
 **Returns**
@@ -239,6 +241,8 @@ This renders the `index.html` file that will be used to interact with the backen
 - `403` if the user is not the author of the freet
 - `400` if the new freet content is empty or a stream of empty spaces
 - `413` if the new freet content is more than 140 characters long
+
+### Users
 
 #### `POST /api/users/session` - Sign in user
 
@@ -313,3 +317,352 @@ This renders the `index.html` file that will be used to interact with the backen
 **Throws**
 
 - `403` if the user is not logged in
+
+### Reply
+
+#### `GET /api/replies?freetID=FREETID` - Gets replies associated with a specific freet
+
+**Returns**
+
+- Array of replies associated with the freet identified by FREETID
+
+**Throws** 
+
+- `400` if no freet
+- `404` if freet isn’t an existing freet
+
+
+#### `POST /api/replies` - Create a new reply
+
+**Body**
+
+- Content of the reply
+- freetID to associate the reply with
+
+**Returns**
+
+- Success message
+- Object with created reply
+
+**Throws**
+
+- `403` if not logged in
+- `400` if empty content
+- `413` if content >140 chars
+
+#### `DELETE /api/replies/:replyID` - Delete an existing reply
+
+**Returns**
+
+- Success message
+
+**Throws**
+
+- `403` if not logged in or not the author of the reply
+- `404` if replyID is invalid
+
+### Like
+
+#### `GET /api/likes?freetID=FREETID` - Gets likes associated with a specific freet
+
+**Returns**
+
+- Array of likes associated with the freet identified by FREETID
+
+**Throws**
+
+- `400` if no freet
+- `404` if freet isn’t an existing freet
+
+#### `POST /api/likes` - Create a new like object
+
+**Body**
+
+- freetID to associate the like with
+
+**Returns**
+
+- Success message
+- Object with created like
+
+**Throws**
+
+- `403` if not logged in, or user already liked the item
+
+
+#### `DELETE /api/like?freetID=FREETID&userID=USERNAME` - Delete an existing like 
+
+**Returns**
+
+- Success message
+
+**Throws**
+
+- `403` if not logged in or not the owner of the like or there is no like for the user to remove from the item
+- `404` if freetID or userID is invalid
+
+### Follow
+
+#### `GET /api/follow?userID=USERNAME` - Gets the follow object for that user
+
+**Returns**
+
+- Follow object for the user
+
+**Throws** 
+
+- `403` if user isn’t logged in or userID is invalid
+
+
+#### `POST /api/follow/` - Creates a new follow object
+
+**Body**
+
+- Array of userIDs for users the user is following
+- Array of userIDs for users who are following the user
+
+**Returns**
+
+- Follow object for the user
+
+**Throws**
+
+- `403` if user isn’t logged in
+
+#### `PATCH /api/follow/:userID` - Updates the follow object for the user corresponding to userID
+
+**Body**
+
+- String: Whether we are changing the follow or following object
+- String: Whether we are adding a user or removing a user from the array
+- Array of userIDs for users to add or remove
+
+**Returns** 
+
+- Array of recommended items curated for the user
+
+**Throws**
+
+- `403` if user isn’t logged in or userID is invalid
+
+### Recommendations
+
+#### `GET /api/recommendations/:userID` - Gets a recommendation object  
+
+**Returns** 
+
+- array of recommended items curated for the user
+
+**Throws**
+
+- `403` if user isn’t logged in or userID is invalid
+
+#### `POST /api/recommendations` - Creates a list of recommended items 
+
+**Body**
+
+- Array of recommended items to add to the document
+
+**Returns** 
+
+- Array of recommended items curated for the user
+
+**Throws** 
+
+- `403` if user isn’t logged in
+
+
+#### `PATCH /api/recommendations/:userID` - Updates a list of recommended items 
+
+**Body**
+
+- Array of recommended items to add in the document and overwrite previous values
+
+**Returns**
+
+- Array of recommended items curated for the user
+
+**Throws**
+- `403` if user isn’t logged in or userID is invalid
+
+
+### Feed
+
+#### `GET /api/feed/:userID` - Gets a list of items for the user’s feed
+
+**Returns** 
+
+- Array of items curated that will show up in the user’s feed (based on algorithm that pulls posts from users the user is following)
+
+**Throws** 
+
+- `403` if user isn’t logged in or userID is invalid
+
+
+#### `POST /api/feed/` - Creates a list of items for the user’s feed
+
+**Body**
+
+- Array of items curated that will show up in the user’s feed (based on algorithm that pulls posts from users the user is following)
+
+**Returns** 
+
+- Feed object that was fetched
+
+**Throws** 
+
+- `403` if user isn’t logged in or userID is invalid
+
+
+#### `PATCH /api/feed/:userID` - Updates a list of items for the user’s feed
+
+**Body**
+
+- Array of items curated that will show up in the user’s feed (based on algorithm that pulls posts from users the user is following)
+
+**Returns** 
+
+- Feed object that was fetched
+
+**Throws**
+
+- `403` if user isn’t logged in or userID is invalid
+
+### Downvote
+
+#### `GET /api/downvotes?freetID=FREETID` - Gets downvotes associated with a specific freet
+
+**Returns** 
+
+- Array of downvotes associated with the freet identified by FREETID
+
+**Throws** 
+
+- `400` if no freet
+- `404` if freet isn’t an existing freet
+
+
+#### `POST /api/downvote` - Create a new downvote object
+
+**Body** 
+
+- freetID to associate the like with
+
+**Returns**
+
+- Success message
+- Object with created downvote
+
+**Throws**
+
+- `403` if not logged in, or user already downvoted the item, or there is no downvote for the user to remove from the item
+
+
+#### `DELETE /api/downvote?freetID=FREETID&userID=USERNAME` - Delete an existing downvote 
+
+**Returns**
+
+- Success message
+
+**Throws**
+
+- `403` if not logged in or not the owner of the downvote or there is no downvote for the user to remove from the item
+- `404` if freetID or userID is invalid
+
+
+### Depolarize
+
+#### `GET /api/depolarize?userID=USERNAME` - Get depolarization setting for a user
+
+**Returns** 
+
+- Depolarize setting for the user
+
+**Throws** 
+
+- `403` if not logged in
+
+#### `POST /api/depolarize?userID=USERNAME` - Set initial depolarization setting for a user
+
+**Body**
+
+- Enabled (boolean)    // true if we want to depolarize the recommendations
+
+**Returns** 
+
+- New depolarize setting for the user
+
+**Throws** 
+
+- `403` if not logged in
+
+#### `PUT /api/depolarize?userID=USERNAME` - Update user’s depolarization setting
+
+**Body**
+
+- Enabled (boolean)    // true if we want to depolarize the recommendations
+
+**Returns** 
+
+- New depolarize setting for the user
+
+**Throws**
+
+- `403` if not logged in
+
+
+### Verified News
+
+#### `GET /api/news` - Get all verified news articles
+
+**Returns**
+
+- Array of all verified news articles
+
+
+#### `POST /api/news` - Add a new verified news object
+
+**Body**
+
+- Article title
+- Creation date
+- Article content
+
+**Returns** 
+
+- Success message
+- Object with created news article
+
+**Throws**
+
+- `403` if not logged in as admin account
+
+
+#### `PATCH /api/news/:newsID` - Edit an existing verified news object
+
+**Body** 
+
+- Article title
+- Creation date
+- Article content
+
+**Returns** 
+
+- Success message
+- Sbject with updated news article
+
+**Throws**
+
+- `403` if not logged in as admin account
+
+
+#### `DELETE /api/news/:newsID` - Delete an existing news article
+
+**Returns**
+
+- Success message
+
+**Throws**
+
+- `403` if not logged in as the admin account
+
