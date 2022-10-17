@@ -87,7 +87,7 @@ router.post(
 /**
  * Delete a like
  *
- * @name DELETE /api/likes?userId=userId&freetId=freetID
+ * @name DELETE /api/likes?freetId=freetID
  *
  * @return {string} - A success message
  * @throws {403} - If the user is not logged in or is not the user of
@@ -106,7 +106,8 @@ router.delete(
     likeValidator.isLikeExists,
   ],
   async (req: Request, res: Response) => {
-    await LikeCollection.deleteOne(req.query.userId as string, req.query.freetId as string);
+    const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
+    await LikeCollection.deleteOne(userId, req.query.freetId as string);
     res.status(200).json({
       message: 'Your like was deleted successfully.'
     });
