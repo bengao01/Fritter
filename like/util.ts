@@ -1,5 +1,4 @@
 import type {HydratedDocument} from 'mongoose';
-import moment from 'moment';
 import type {Like, PopulatedLike} from '../Like/model';
 
 // Update this if you add a property to the Like type!
