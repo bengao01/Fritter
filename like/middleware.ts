@@ -13,7 +13,7 @@ const isLikeNotExists = async (req: Request, res: Response, next: NextFunction) 
   if (like) {
     res.status(403).json({
       error: {
-        likeNotFound: `Like associated with user ID ${req.session.userId} and freet ID ${req.body.freetId} already exists.`
+        likeFound: `Like associated with user ID ${req.session.userId} and freet ID ${req.body.freetId} already exists.`
       }
     });
     return;

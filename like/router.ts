@@ -62,7 +62,7 @@ router.get(
 router.post(
   '/',
   async (req: Request, res: Response, next: NextFunction) => {
-    // Check if freetId query parameter was supplied
+    // add to req.params for freet validator to work
     req.params.freetId = String(req.body.freetId);
     next();
   },

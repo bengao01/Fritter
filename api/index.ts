@@ -13,6 +13,7 @@ import {userRouter} from '../user/router';
 import {freetRouter} from '../freet/router';
 import {likeRouter} from '../like/router';
 import {downvoteRouter} from '../downvote/router';
+import { followRouter } from '../follow/router';
 
 
 // Load environmental variables
@@ -81,6 +82,7 @@ app.use('/api/users', userRouter);
 app.use('/api/freets', freetRouter);
 app.use('/api/likes', likeRouter);
 app.use('/api/downvotes', downvoteRouter);
+app.use('/api/follow', followRouter);
 
 
 

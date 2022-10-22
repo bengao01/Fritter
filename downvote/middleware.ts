@@ -13,7 +13,7 @@ const isDownvoteNotExists = async (req: Request, res: Response, next: NextFuncti
   if (downvote) {
     res.status(403).json({
       error: {
-        downvoteNotFound: `Downvote associated with user ID ${req.session.userId} and freet ID ${req.body.freetId} already exists.`
+        downvoteFound: `Downvote associated with user ID ${req.session.userId} and freet ID ${req.body.freetId} already exists.`
       }
     });
     return;

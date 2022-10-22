@@ -46,7 +46,12 @@ const formsAndHandlers = {
   'add-downvote': addDownvote,
   'view-freet-downvote-count': viewFreetDownvoteCount,
   'get-all-downvotes': getAllDownvotes,
-  'delete-downvote': deleteDownvote
+  'delete-downvote': deleteDownvote,
+  'add-follow': addFollow,
+  'get-followers': getFollowers,
+  'get-following': getFollowing,
+  'get-feed': getFeed,
+  'delete-follow': deleteFollow
 };
 
 // Attach handlers to forms

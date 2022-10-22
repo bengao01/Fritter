@@ -1,7 +1,6 @@
 import type {HydratedDocument, Types} from 'mongoose';
 import type {Like} from './model';
 import LikeModel from './model';
-var ObjectID = require('mongodb').ObjectID;
 
 /**
  * This files contains a class that has the functionality to explore Likes

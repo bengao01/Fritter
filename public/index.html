@@ -9,6 +9,7 @@
   <script src="/scripts/user.js"></script>
   <script src="/scripts/like.js"></script>
   <script src="/scripts/downvote.js"></script>
+  <script src="/scripts/follow.js"></script>
   <script src="/scripts/index.js"></script>
 </head>
 
@@ -182,6 +183,58 @@
             <input id="freetId" name="freetId">
           </div>
           <input type="submit" value="Delete Downvote">
+        </form>
+
+        <form id="add-follow">
+          <h3>Add Follow (follower follows the followee)</h3>
+          <div>
+            <label for="follower">Follower Username:</label>
+            <input id="follower" name="follower">
+          </div>
+          <div>
+            <label for="followee">Followee Username:</label>
+            <input id="followee" name="followee">
+          </div>
+          <input type="submit" value="Add Follow">
+        </form>
+
+        <form id="get-followers">
+          <h3>Get Followers of a User</h3>
+          <div>
+            <label for="followee">Followee Username:</label>
+            <input id="followee" name="followee">
+          </div>
+          <input type="submit" value="Get Followers of a User">
+        </form>
+
+        <form id="get-following">
+          <h3>Get Who A User Follows</h3>
+          <div>
+            <label for="user">Username:</label>
+            <input id="user" name="user">
+          </div>
+          <input type="submit" value="Get Who A User Follows">
+        </form>
+
+        <form id="get-feed">
+          <h3>Get a User's Feed</h3>
+          <div>
+            <label for="user">user:</label>
+            <input id="user" name="user">
+          </div>
+          <input type="submit" value="Get User's Feed">
+        </form>
+
+        <form id="delete-follow">
+          <h3>Delete Follow</h3>
+          <div>
+            <label for="follower">Follower Username:</label>
+            <input id="follower" name="follower">
+          </div>
+          <div>
+            <label for="followee">Followee Username:</label>
+            <input id="followee" name="followee">
+          <input type="submit" value="Delete Follow">
         </form>
 
       </div>
