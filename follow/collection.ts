@@ -50,8 +50,8 @@ class FollowCollection {
   /**
    * Delete a Follow with followerId and followeeId
    *
-   * @param {string} followerId - The Follow with the associated userId
-   * @param {string} followeeId - The Follow with the associated freetId
+   * @param {string} followerId - The Follow with the associated followerId
+   * @param {string} followeeId - The Follow with the associated followeeId
    * @return {Promise<Boolean>} - true if the Follow has been deleted, false otherwise
    */
   static async deleteOne(followerId: Types.ObjectId | string, followeeId: Types.ObjectId | string): Promise<boolean> {
@@ -62,8 +62,8 @@ class FollowCollection {
   /**
    * Get all the followers who are following a given followeeId
    *
-   * @param {string} followeeId - The username of the user associated with the freets
-   * @return {Promise<HydratedDocument<Freet>[]>} - An array of all of the freets
+   * @param {string} followeeId - The id of the user whose followers we are getting
+   * @return {Promise<HydratedDocument<Follow>[]>} - An array of all of the follow objects
    */
  static async getAllFollowers(followeeId: Types.ObjectId | string): Promise<Array<HydratedDocument<Follow>>> {
     // var id = new ObjectID(freetId);
@@ -73,24 +73,13 @@ class FollowCollection {
   /**
    * Get all the people userId is following
    *
-   * @param {string} freetId - The username of the user associated with the freets
-   * @return {Promise<HydratedDocument<Freet>[]>} - An array of all of the freets
+   * @param {string} userId - The id of the user whose following objects we are retrieving
+   * @return {Promise<HydratedDocument<Follow>[]>} - An array of all of the follow objects
    */
  static async getAllFollowing(userId: Types.ObjectId | string): Promise<Array<HydratedDocument<Follow>>> {
   // var id = new ObjectID(freetId);
   return FollowModel.find({followerId: userId}).populate(['followerId', 'followeeId']);
-}
-
-//   /**
-//    * Get the follow count associated with a given freetId
-//    *
-//    * @param {string} freetId - The username of the user associated with the freets
-//    * @return {Promise<HydratedDocument<Freet>[]>} - An array of all of the freets
-//    */
-//  static async findFreetFollowCount(freetId: Types.ObjectId | string): Promise<number> {
-//     const Follows = await FollowModel.find({freetId: freetId});
-//     return Follows.length;
-//   }
+  }
 }
 
 

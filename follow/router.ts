@@ -3,10 +3,8 @@ import express from 'express';
 import FollowCollection from './collection';
 import UserCollection from '../user/collection';
 import * as userValidator from '../user/middleware';
-import * as freetValidator from '../freet/middleware';
 import * as followValidator from '../follow/middleware';
 import * as util from './util';
-import { constructFreetResponse } from '../freet/util';
 
 const router = express.Router();
 
