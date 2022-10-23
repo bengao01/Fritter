@@ -9,13 +9,6 @@ import * as util from './util';
 const router = express.Router();
 
 /**
- * Get all the downvotes
- *
- * @name GET /api/downvotes
- *
- * @return {DownvoteResponse[]} - A list of all the downvotes on Fritter
- */
-/**
  * Get number of downvotes on a Freet by freetId.
  *
  * @name GET /api/downvotes?freetId=id
@@ -37,9 +30,11 @@ router.get(
       return;
     }
     
-    const allDownvotes = await DownvoteCollection.findAll();
-    const response = allDownvotes.map(util.constructDownvoteResponse);
-    res.status(200).json(response);
+    res.status(400).json({
+        error: {
+          missingQueryField: `Need to pass a freetID with this request.`
+        }
+      });
   },
   [
     freetValidator.isFreetExists
@@ -92,6 +87,7 @@ router.post(
  * @return {string} - A success message
  * @throws {403} - If the user is not logged in or is not the user of
  *                 the downvote, or if the downvote doesn't exist
+ * @throws {404} - If no freet has given freetId
  */
 router.delete(
   '/',

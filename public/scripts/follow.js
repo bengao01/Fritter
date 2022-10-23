@@ -18,7 +18,7 @@
   }
   
   function addFollow(fields) {
-    fetch(`/api/follow?follower=${fields.follower}&followee=${fields.followee}`, {method: 'POST'})
+    fetch(`/api/follow`, {method: 'POST', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
       .then(showResponse)
       .catch(showResponse);
   }

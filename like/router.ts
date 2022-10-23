@@ -9,13 +9,6 @@ import * as util from './util';
 const router = express.Router();
 
 /**
- * Get all the likes
- *
- * @name GET /api/likes
- *
- * @return {LikeResponse[]} - A list of all the likes on Fritter
- */
-/**
  * Get number of likes on a Freet by freetId.
  *
  * @name GET /api/likes?freetId=id
@@ -37,9 +30,12 @@ router.get(
       return;
     }
     
-    const allLikes = await LikeCollection.findAll();
-    const response = allLikes.map(util.constructLikeResponse);
-    res.status(200).json(response);
+    res.status(400).json({
+      error: {
+        missingQueryField: `Need to pass a freetID with this request.`
+      }
+    });
+    return;
   },
   [
     freetValidator.isFreetExists

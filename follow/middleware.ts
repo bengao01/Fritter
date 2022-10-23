@@ -7,8 +7,8 @@ import UserCollection from '../user/collection';
  * Makes sure a follow with follower and followee doesn't exist
  */
 const isFollowNotExists = async (req: Request, res: Response, next: NextFunction) => {
-  const follower = await UserCollection.findOneByUsername(req.query.follower as string);
-  const followee = await UserCollection.findOneByUsername(req.query.followee as string);
+  const follower = await UserCollection.findOneByUsername(req.body.follower as string);
+  const followee = await UserCollection.findOneByUsername(req.body.followee as string);
   console.log("follower user:", follower);
   console.log("followee user:", followee);
   // Either follower or followee don't exist as usernames in the DB
@@ -71,32 +71,7 @@ const isFollowNotExists = async (req: Request, res: Response, next: NextFunction
   next();
 };
 
-/**
- * Checks if a follow exists with a user
- */
- const isUserInFollow = async (req: Request, res: Response, next: NextFunction) => {
-  const user = await UserCollection.findOneByUsername(req.query.author as string);
-
-  console.log("follower:", user.username);
-
-  const followers = FollowCollection.getAllFollowers(user._id);
-  const following = FollowCollection.getAllFollowers(user._id);
-
-  // No Follow record exists that contains this user
-  if (!followers && !following) {
-    res.status(404).json({
-      error: {
-        followNotFound: `Follow associated with follower ID ${user._id} doesn't exist.`
-      }
-    });
-    return;
-  }
-
-  next();
-};
-
 export {
   isFollowNotExists,
   isFollowExists,
-  isUserInFollow
 };

@@ -16,7 +16,7 @@ const router = express.Router();
  *
  * @return {FollowResponse[]} - An array of follows who are following the followee
  * @throws {400} - If followee param is not passed
- * @throws {404} - If no follow object with the followee exists
+ * @throws {404} - If no user with the followee username exists
  *
  */
 router.get(
@@ -35,7 +35,7 @@ router.get(
     req.query.author = req.query.followee as string;
     next();
   },
-  [userValidator.isAuthorExists, followValidator.isUserInFollow],
+  [userValidator.isAuthorExists],
   async (req: Request, res: Response) => {
     const followee = await UserCollection.findOneByUsername(req.query.followee as string);
     const follows = await FollowCollection.getAllFollowers(followee._id);
@@ -50,6 +50,8 @@ router.get(
  * @name GET /api/follow/following?user=USERNAME
  *
  * @return {FollowResponse[]} - An array of people who the user follows
+ * @throws {400} - If user param is not passed
+ * @throws {404} - If no user with the user's username exists
  */
  router.get(
   '/following',
@@ -67,7 +69,7 @@ router.get(
     req.query.author = req.query.user as string;
     next();
   },
-  [userValidator.isAuthorExists, followValidator.isUserInFollow],
+  [userValidator.isAuthorExists],
   async (req: Request, res: Response) => {
     const user = await UserCollection.findOneByUsername(req.query.user as string);
     const follows = await FollowCollection.getAllFollowing(user._id);
@@ -78,10 +80,11 @@ router.get(
 
 /**
  * Get the feed with posts from people the user follows
+ * If the user has depolarize turned on, the feed will not show freets that have more downvotes than likes.
  *
  * @name GET /api/follow/feed?user=USERNAME
  *
- * @return {FreetResponse[]} - An array of people who the user follows
+ * @return {FreetResponse[]} - An array of freets from people the user follows
  */
  router.get(
   '/feed',
@@ -99,7 +102,7 @@ router.get(
     req.query.author = req.query.user as string;
     next();
   },
-  [userValidator.isUserLoggedIn, followValidator.isUserInFollow],
+  [userValidator.isUserLoggedIn],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
     console.log("userId:", userId);
@@ -114,8 +117,9 @@ router.get(
 /**
  * Create a new follow (pass in usernames of the follower and followee)
  *
- * @name POST /api/follow?follower=FOLLOWER&followee=FOLLOWEE
- *
+ * @name POST /api/follow
+ * @param {string} follower - The user who is following another user
+ * @param {string} followee - The user who is being followed
  * @return {FollowResponse} - The created follow
  * @throws {403} - If the user is not logged in, or the follow already exists
  */
@@ -129,8 +133,8 @@ router.post(
     console.log("req params:", req.params);
     console.log("req body:", req.body);
     console.log("Here:", req.session.userId);
-    const follower = await UserCollection.findOneByUsername(req.query.follower as string);
-    const followee = await UserCollection.findOneByUsername(req.query.followee as string);
+    const follower = await UserCollection.findOneByUsername(req.body.follower as string);
+    const followee = await UserCollection.findOneByUsername(req.body.followee as string);
 
     const follow = await FollowCollection.addOne(follower._id, followee._id);
     res.status(201).json({

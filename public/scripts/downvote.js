@@ -4,12 +4,6 @@
  * Fields is an object mapping the names of the form inputs to the values typed in
  * e.g. for createUser, fields has properites 'username' and 'password'
  */
-
- function getAllDownvotes(fields) {
-    fetch('/api/downvotes')
-      .then(showResponse)
-      .catch(showResponse);
-  }
   
   function addDownvote(fields) {
     fetch('/api/downvotes', {method: 'POST', body: JSON.stringify(fields), headers: {'Content-Type': 'application/json'}})
