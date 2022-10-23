@@ -20,8 +20,8 @@ class UserCollection {
    */
   static async addOne(username: string, password: string): Promise<HydratedDocument<User>> {
     const dateJoined = new Date();
-
-    const user = new UserModel({username, password, dateJoined});
+    const depolarize : boolean = false;
+    const user = new UserModel({username, password, dateJoined, depolarize});
     await user.save(); // Saves user to MongoDB
     return user;
   }
@@ -43,7 +43,7 @@ class UserCollection {
    * @return {Promise<HydratedDocument<User>> | Promise<null>} - The user with the given username, if any
    */
   static async findOneByUsername(username: string): Promise<HydratedDocument<User>> {
-    return UserModel.findOne({username: new RegExp(`^${username.trim()}$`, 'i')});
+    return UserModel.findOne({username: new RegExp(`^${username?.trim()}$`, 'i')});
   }
 
   /**
@@ -75,6 +75,10 @@ class UserCollection {
 
     if (userDetails.username) {
       user.username = userDetails.username as string;
+    }
+
+    if (userDetails.depolarize) {
+      user.depolarize = userDetails.depolarize as boolean;
     }
 
     await user.save();
