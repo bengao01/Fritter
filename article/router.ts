@@ -92,13 +92,7 @@ router.put(
     articleValidator.isAdminUser,
   ],
   async (req: Request, res: Response) => {
-    let article;
-    if (req.body.content){
-      article = await ArticleCollection.updateOneContent(req.params.articleId, req.body.content);
-    }
-    if (req.body.title){
-      article = await ArticleCollection.updateOneTitle(req.params.articleId, req.body.title);
-    }
+    const article = await ArticleCollection.updateOne(req.params.articleId, req.body);
     res.status(200).json({
       message: 'Your article was updated successfully.',
       article: util.constructArticleResponse(article)

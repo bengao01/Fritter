@@ -52,31 +52,22 @@ class ArticleCollection {
   }
 
   /**
-   * Update a article with the new content
+   * Update article's information
    *
-   * @param {string} articleId - The id of the article to be updated
-   * @param {string} content - The new content of the article
-   * @return {Promise<HydratedDocument<Article>>} - The newly updated article
+   * @param {string} articleId - The articleId of the article to update
+   * @param {Object} articleDetails - An object with the article's updates
+   * @return {Promise<HydratedDocument<Article>>} - The updated article
    */
-  static async updateOneContent(articleId: Types.ObjectId | string, content: string): Promise<HydratedDocument<Article>> {
-    const article = await ArticleModel.findOne({_id: articleId});
-    article.content = content;
-    article.dateModified = new Date();
-    await article.save();
-    return article;
-  }
+   static async updateOne(articleId: Types.ObjectId | string, articleDetails: any): Promise<HydratedDocument<Article>> {
+    const article = await ArticleModel.findOne({_id: articleId})
+    if (articleDetails.title) {
+      article.title = articleDetails.title as string;
+    }
 
-  /**
-   * Update a article with the new content
-   *
-   * @param {string} articleId - The id of the article to be updated
-   * @param {string} content - The new content of the article
-   * @return {Promise<HydratedDocument<Article>>} - The newly updated article
-   */
-   static async updateOneTitle(articleId: Types.ObjectId | string, title: string): Promise<HydratedDocument<Article>> {
-    const article = await ArticleModel.findOne({_id: articleId});
-    article.title = title;    
-    article.dateModified = new Date();
+    if (articleDetails.content) {
+      article.content = articleDetails.content as string;
+    }
+
     await article.save();
     return article;
   }
