@@ -10,6 +10,7 @@
   <script src="/scripts/like.js"></script>
   <script src="/scripts/downvote.js"></script>
   <script src="/scripts/follow.js"></script>
+  <script src="/scripts/article.js"></script>
   <script src="/scripts/index.js"></script>
 </head>
 
@@ -237,6 +238,58 @@
           <input type="submit" value="Delete Follow">
         </form>
 
+        <form id="add-article">
+          <h3>Add Article (need to be signed in as account with username admin)</h3>
+          <div>
+            <label for="title">Article Title:</label>
+            <input id="title" name="title">
+          </div>
+          <div>
+            <label for="content">Article Content:</label>
+            <input id="content" name="content">
+          </div>
+          <input type="submit" value="Add an Article">
+        </form>
+
+        <form id="get-articles">
+          <h3>Get All Articles</h3>
+          <input type="submit" value="Get All Articles">
+        </form>
+
+        <form id="edit-article-title">
+          <h3>Edit an existing Article's title (need to be signed in as account with username admin)</h3>
+          <div>
+            <label for="title">New Title:</label>
+            <input id="title" name="title">
+          </div>
+          <div>
+            <label for="id">ArticleId:</label>
+            <input id="id" name="id">
+          </div>
+          <input type="submit" value="Edit Article Title">
+        </form>
+
+        <form id="edit-article-content">
+          <h3>Edit an existing Article's content (need to be signed in as account with username admin)</h3>
+          <div>
+            <label for="content">New Content:</label>
+            <input id="content" name="content">
+          </div>
+          <div>
+            <label for="id">ArticleId:</label>
+            <input id="id" name="id">
+          </div>
+          <input type="submit" value="Edit Article Content">
+        </form>
+
+        <form id="delete-article">
+          <h3>Delete Article (need to be signed in as account with username admin)</h3>
+          <div>
+            <label for="id">ArticleId:</label>
+            <input id="id" name="id">
+          </div>
+          <input type="submit" value="Delete Article">
+        </form>
       </div>
     </section>
     <section>

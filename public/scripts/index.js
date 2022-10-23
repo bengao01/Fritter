@@ -51,7 +51,12 @@ const formsAndHandlers = {
   'get-followers': getFollowers,
   'get-following': getFollowing,
   'get-feed': getFeed,
-  'delete-follow': deleteFollow
+  'delete-follow': deleteFollow,
+  'add-article': createArticle,
+  'get-articles': getAllArticles,
+  'edit-article-title': editArticleTitle,
+  'edit-article-content': editArticleContent,
+  'delete-article': deleteArticle
 };
 
 // Attach handlers to forms

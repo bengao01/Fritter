@@ -14,6 +14,7 @@ import {freetRouter} from '../freet/router';
 import {likeRouter} from '../like/router';
 import {downvoteRouter} from '../downvote/router';
 import { followRouter } from '../follow/router';
+import { articleRouter } from '../article/router';
 
 
 // Load environmental variables
@@ -83,7 +84,7 @@ app.use('/api/freets', freetRouter);
 app.use('/api/likes', likeRouter);
 app.use('/api/downvotes', downvoteRouter);
 app.use('/api/follow', followRouter);
-
+app.use('/api/article', articleRouter);
 
 
 // Catch all the other routes and display error message
