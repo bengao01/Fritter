@@ -26,7 +26,6 @@ const constructFollowResponse = (Follow: HydratedDocument<Follow>): FollowRespon
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
-  console.log("followCopy is:", FollowCopy);
   return {
     _id: FollowCopy._id.toString(),
     follower: FollowCopy.followerId.username,
@@ -47,37 +46,30 @@ const constructFollowResponse = (Follow: HydratedDocument<Follow>): FollowRespon
       versionKey: false // Cosmetics; prevents returning of __v property
     })
   };
-  console.log("followCopy is", FollowCopy)
   const freets = await FreetCollection.findAllByUsername(FollowCopy.followeeId.username);
-  console.log("freets is:", freets);
 
   const user = await UserCollection.findOneByUsername(FollowCopy.followerId.username);
+  
+  // If user wants to depolarize, only return freets with more likes than downvotes
   if (user.depolarize){
-    const filteredFreets = await Promise.all(freets.filter(notControversialFreet));
-    console.log("filtered freets is: ", filteredFreets);
-    return filteredFreets
-  } else{
-    return freets;
+    let filteredFreets: Array<HydratedDocument<Freet>> = [];
+    for(let i = 0; i < freets.length; i++){
+      const FreetCopy: PopulatedFreet = {
+        ...freets[i].toObject({
+          versionKey: false // Cosmetics; prevents returning of __v property
+        })
+      };
+      const downvotes = await DownvoteCollection.findFreetDownvoteCount(FreetCopy._id);
+      const likes = await LikeCollection.findFreetLikeCount(FreetCopy._id);
+      
+      if (likes >= downvotes){
+        filteredFreets.push(freets[i]);
+      }
+    }
+    return filteredFreets;
   }
-};
 
-/**
- * Checks if a freet is controversial or not (more downvotes than likes)
- * @param {HydratedDocument<Freet>} freet - A freet
- * @returns {boolean} - True if freet is not controversial, false otherwise
- */
- const notControversialFreet = async (Freet: HydratedDocument<Freet>): Promise<boolean> => {
-  const FreetCopy: PopulatedFreet = {
-    ...Freet.toObject({
-      versionKey: false // Cosmetics; prevents returning of __v property
-    })
-  };
-  const downvotes = await DownvoteCollection.findFreetDownvoteCount(FreetCopy._id);
-  const likes = await LikeCollection.findFreetLikeCount(FreetCopy._id);
-  console.log("freet downvote count:", downvotes);
-  console.log("freet like count:", likes);
-  console.log(likes >= downvotes);
-  return likes >= downvotes;
+  return freets;
 };
 
 export {
